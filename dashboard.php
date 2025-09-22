@@ -72,7 +72,7 @@ header {
         #submit-btn {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #990000;
             color: white;
             border: none;
             border-radius: 4px;
@@ -80,7 +80,7 @@ header {
             font-size: 1em;
         }
         #submit-btn:hover {
-            background-color: #45a049;
+            background-color: #990000;
         }
         
         /* New Table Button Styles */

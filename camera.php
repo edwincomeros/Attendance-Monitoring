@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WMSU Attendance Tracking</title>
@@ -129,19 +130,31 @@
     simulateFaceTracking();
 
     // HLS.js to play .m3u8 stream in browsers
-    if(Hls.isSupported()) {
-      var hls = new Hls();
-      hls.loadSource('http://localhost/stream/index.m3u8');
-      hls.attachMedia(liveVideo);
-      hls.on(Hls.Events.MANIFEST_PARSED, function() {
-        liveVideo.play();
-      });
-    } else if (liveVideo.canPlayType('application/vnd.apple.mpegurl')) {
-      liveVideo.src = 'http://localhost/stream/index.m3u8';
-      liveVideo.addEventListener('loadedmetadata', function() {
-        liveVideo.play();
-      });
-    }
+    if (Hls.isSupported()) {
+  var hls = new Hls();
+  hls.loadSource('http://localhost/stream/index.m3u8');
+  hls.attachMedia(liveVideo);
+  hls.on(Hls.Events.MANIFEST_PARSED, function () {
+    liveVideo.play();
+  });
+} else if (liveVideo.canPlayType('application/vnd.apple.mpegurl')) {
+  liveVideo.src = 'http://localhost/stream/index.m3u8';
+  liveVideo.addEventListener('loadedmetadata', function () {
+    liveVideo.play();
+  });
+}
+
+
+  Promise.all([
+    faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+    faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+    faceapi.nets.faceRecognitionNet.loadFromUri('/models')
+  ]).then(startCamera)
+
+  function startCamera() {
+    // your existing camera startup code here
+    console.log("✅ Models loaded and camera started")
+  }
   </script>
 </body>
 </html>
